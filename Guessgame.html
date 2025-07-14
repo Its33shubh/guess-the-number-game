@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Guess the Number Game</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body style="background-color: blueviolet;">
+
+    <div class="container py-5 mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-lg">
+                    <div class="card-body text-center">
+                        <h1 class="card-title mb-4">🎯 Guess the Number</h1>
+                        <p class="card-text">I have picked a number between <strong>0</strong> and <strong>99</strong>.
+                            Can you guess it?</p>
+
+                        <!-- ✅ Form Start -->
+                        <form id="guessForm" class="row g-2 justify-content-center">
+                            <div class="col-auto">
+                                <input type="number" id="guessInput" class="form-control form-control-sm"
+                                    placeholder="Enter your guess" required style="width: 150px;">
+                            </div>
+                            <div class="col-auto">
+                                <button class="btn btn-primary btn-sm" type="submit">Enter</button>
+                            </div>
+                        </form>
+                        
+                        <!-- ✅ Form End -->
+
+                        <p id="result" class="lead"></p>
+                        <p id="attempts" class="text-muted"></p>
+                        <button id="restartBtn" class="btn btn-success d-none">Play Again</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let randomNumber = Math.floor(Math.random() * 100);
+        let attempts = 0;
+        let maxAttempts = 5; 
+      
+        let guessForm = document.getElementById("guessForm");
+        let guessInput = document.getElementById("guessInput");
+        let result = document.getElementById("result");
+        let attemptsText = document.getElementById("attempts");
+        let restartBtn = document.getElementById("restartBtn");
+      
+        guessForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+      
+          let userguess = parseInt(guessInput.value);
+          attempts++;
+      
+          if (isNaN(userguess) || userguess < 0 || userguess > 99) {
+            result.textContent = "❌ Please enter a number between 0 and 99";
+            result.className = "text-danger";
+          } else if (userguess === randomNumber) {
+            result.textContent = `🎉 Correct! The number was ${randomNumber}.`;
+            result.className = "text-success fw-bold";
+            restartBtn.classList.remove("d-none");
+            guessForm.querySelector("button[type='submit']").disabled = true;
+          } else if (userguess > randomNumber) {
+            result.textContent = "📈 Too Big! Try again.";
+            result.className = "text-primary";
+          } else {
+            result.textContent = "📉 Too Small! Try again.";
+            result.className = "text-primary";
+          }
+      
+          attemptsText.textContent = `Attempts: ${attempts}/${maxAttempts}`;
+      
+          
+          if (attempts >= maxAttempts && userguess !== randomNumber) {
+            result.textContent = `❌ Game Over! The number was ${randomNumber}.`;
+            result.className = "text-danger fw-bold";
+            restartBtn.classList.remove("d-none");
+            guessForm.querySelector("button[type='submit']").disabled = true;
+          }
+      
+          guessInput.value = "";
+          guessInput.focus();
+        });
+      
+        restartBtn.addEventListener("click", function () {
+          randomNumber = Math.floor(Math.random() * 100);
+          attempts = 0;
+          result.textContent = "";
+          attemptsText.textContent = "";
+          guessInput.value = "";
+          guessForm.querySelector("button[type='submit']").disabled = false;
+          restartBtn.classList.add("d-none");
+          guessInput.focus();
+        });
+      </script>
+      
+
+    <!-- Bootstrap JS Bundle (Optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
