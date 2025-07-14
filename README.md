@@ -4,7 +4,7 @@ This is a simple number guessing game built with HTML, Bootstrap 5, and JavaScri
 
 ## 🚀 Live Demo
 
-[Play the game here]
+[Play the game here] (https://its33shubh.github.io/guess-the-number-game/)
 
 ## 📌 How to Play
 
